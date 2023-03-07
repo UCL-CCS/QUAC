@@ -5,6 +5,7 @@ from cached_property import cached_property
 from openfermion import get_sparse_operator, FermionOperator, count_qubits
 import warnings
 from symmer.chemistry.fermionic_ham import get_sign
+from quac.chem_drivers.DriverBase import BaseChemDriver
 
 
 class ClosedShellChemistry:
@@ -13,13 +14,7 @@ class ClosedShellChemistry:
 
     def __init__(
             self,
-            C_matrix: np.array,
-            electron_repulsion_integrals_spatial_MO: np.array,
-            nuclear_energy: float,
-            n_alpha: int,
-            n_beta: int,
-            electron_repulsion_integral_type: str,
-            H_core_ao: np.array,
+            ChemDriver: BaseChemDriver,
             aux_information=dict(),
     ) -> None:
         """
@@ -61,14 +56,17 @@ class ClosedShellChemistry:
                                        C_matrix.shape[0]), 'electron repulsion integrals (spatial) not correct shape'
 
     @cached_property
-    def hcore_spatial_MO(self) -> np.ndarray:
+    def hcore_spatial_AO_to_spatial_MO(self) -> np.ndarray:
         """Get the one electron integrals: An N by N array storing h_{pq}
         Note N is number of orbitals"""
         hcore_ij_alpha = self.C_matrix.conj().T @ self.H_core_ao @ self.C_matrix
 
         return hcore_ij_alpha
 
-    def _hcore_spatial_to_spin(self, hcore_spatial):
+    def _hcore_spatial_MO_to_spin_MO(self, hcore_spatial: np.ndarray) -> np.ndarray:
+        """
+        Convert hcore spatial MO to spin MO
+        """
         n_spatial_orbs = hcore_spatial.shape[0]*2
         n_spin_orbs = 2 * n_spatial_orbs
         h_core_mo_basis_spin = np.zeros((n_spin_orbs, n_spin_orbs))
@@ -87,7 +85,7 @@ class ClosedShellChemistry:
         Returns:
 
         """
-        h_core_mo_basis_spin = self._hcore_spatial_to_spin(self.hcore_mo_spatial)
+        h_core_mo_basis_spin = self._hcore_spatial_MO_to_spin_MO(self.hcore_mo_spatial)
         return h_core_mo_basis_spin
 
     @cached_property
@@ -199,11 +197,11 @@ class ClosedShellChemistry:
 
 
         # slice active parts only!
-        hcore_spatial_MO_active_space = self.hcore_spatial_MO[np.ix_(active_spatial_MOs_inds, active_spatial_MOs_inds)]
+        hcore_spatial_MO_active_space = self.hcore_spatial_AO_to_spatial_MO[np.ix_(active_spatial_MOs_inds, active_spatial_MOs_inds)]
         chem_eri_spatial_MO_active_space = self.chem_eri_spatial_MO[np.ix_(active_spatial_MOs_inds, active_spatial_MOs_inds,
                                                                   active_spatial_MOs_inds, active_spatial_MOs_inds)]
 
-        hcore_spin_MO_active_space = self._hcore_spatial_to_spin(hcore_spatial_MO_active_space)
+        hcore_spin_MO_active_space = self._hcore_spatial_MO_to_spin_MO(hcore_spatial_MO_active_space)
         chem_eri_spin_MO_active_space = self._chem_eri_spatial_to_spin(chem_eri_spatial_MO_active_space)
 
 
@@ -311,7 +309,7 @@ class ClosedShellChemistry:
 
         """
         # TODO fix bg
-        warnings.warn('currently note woring as well as taking t2 amps from pyscf object')
+        warnings.warn('currently note working as well as taking t2 amps from pyscf object')
 
         # phys order
         e_orbs_occ = np.diag(self.fock_spin_mo_basis)[:self.n_electrons]
@@ -531,5 +529,4 @@ class FermionicOp:
         pass
     def hf_fermionic_array(self):
         pass
-
 

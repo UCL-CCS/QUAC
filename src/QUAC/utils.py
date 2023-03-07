@@ -125,6 +125,18 @@ def xyz_from_pubchem(molecule_name):
     return xyz_file
 
 
+def list_to_xyz(geometry: List[Tuple[str, Tuple[float, float, float]]]) -> str:
+    """ Convert the geometry stored as a list to xyz string
+    """
+    xyz_file = str(len(geometry)) + '\n '
+
+    for atom, coords in geometry:
+        xyz_file += '\n' + atom + '\t'
+        xyz_file += '\t'.join(list(map(str, coords)))
+
+    return xyz_file
+
+
 def get_fermionic_number_operator(N_qubits: int) -> FermionOperator:
     """
 
