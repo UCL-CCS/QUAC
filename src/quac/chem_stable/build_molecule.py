@@ -2,8 +2,8 @@ import numpy as np
 from pyscf.scf.addons import get_ghf_orbspin
 from symmer import QuantumState
 from symmer.symplectic.utils import safe_PauliwordOp_to_dict
-from symmer.chemistry.utils import list_to_xyz
-from symmer.chemistry import (
+from quac.chem_stable.utils import list_to_xyz
+from quac.chem_stable import (
     PySCFDriver,
     get_hamiltonian, 
     get_hf_state, 

@@ -12,7 +12,7 @@ from symmer.symplectic import QuantumState, PauliwordOp
 from openfermion import InteractionOperator, FermionOperator
 from openfermion.transforms.opconversions.jordan_wigner import _jordan_wigner_interaction_op
 from openfermion.transforms.opconversions.bravyi_kitaev import _bravyi_kitaev_interaction_operator
-from symmer.chemistry.utils import (
+from quac.chem_stable.utils import (
     get_fermionic_number_operator, 
     get_fermionic_spin_operators,
     get_fermionic_up_down_parity_operators,
