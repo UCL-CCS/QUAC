@@ -1,6 +1,6 @@
 from cached_property import cached_property
-from symmer.symplectic import PauliwordOp
-from symmer.symplectic.utils import QubitOperator_to_dict, safe_PauliwordOp_to_dict
+from symmer.operators import PauliwordOp
+from symmer.operators.utils import QubitOperator_to_dict, safe_PauliwordOp_to_dict
 from symmer.chemistry import FermionicHamiltonian, FermioniCC, PySCFDriver
 from symmer.chemistry.utils import (
     build_bk_matrix, fermion_to_qubit_operator, get_fermionic_number_operator, get_fermionic_spin_operators, get_parity_operators_JW, get_parity_operators_BK
