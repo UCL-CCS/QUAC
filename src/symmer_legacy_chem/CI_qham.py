@@ -1,5 +1,5 @@
 import numpy as np
-from symmer.symplectic import QuantumState, PauliwordOp
+from symmer.operators import QuantumState, PauliwordOp
 from scipy.sparse import csr_matrix
 from scipy.sparse.linalg import eigsh
 from symmer.chemistry.utils import build_bk_matrix

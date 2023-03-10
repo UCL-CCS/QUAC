@@ -7,8 +7,8 @@ import py3Dmol
 from pyscf.tools import cubegen
 from openfermion import FermionOperator, count_qubits, hermitian_conjugated
 from openfermion.transforms import jordan_wigner, bravyi_kitaev#, parity_code
-from symmer.symplectic.utils import QubitOperator_to_dict
-from symmer.symplectic import PauliwordOp
+from symmer.operators.utils import QubitOperator_to_dict
+from symmer.operators import PauliwordOp
 
 def Draw_molecule(
     xyz_string: str, width: int = 400, height: int = 400, style: str = "sphere"

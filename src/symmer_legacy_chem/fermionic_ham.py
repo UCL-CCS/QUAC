@@ -11,7 +11,7 @@ from openfermion.ops.representations import get_active_space_integrals
 from pyscf import ao2mo, gto, scf, mp, ci, cc, fci
 from pyscf.lib import StreamObject
 from symmer.chemistry.utils import get_excitations
-from symmer.symplectic import QuantumState
+from symmer.operators import QuantumState
 from symmer.utils import exact_gs_energy
 from pyscf.cc.addons import spatial2spin
 import warnings

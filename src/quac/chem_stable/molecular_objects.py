@@ -8,7 +8,7 @@ from cached_property import cached_property
 from pyscf import ao2mo, gto, scf, mp, ci, cc, fci, mcscf
 from pyscf.lib import StreamObject
 from pyscf.cc.addons import spatial2spin
-from symmer.symplectic import QuantumState, PauliwordOp
+from symmer.operators import QuantumState, PauliwordOp
 from openfermion import InteractionOperator, FermionOperator
 from openfermion.transforms.opconversions.jordan_wigner import _jordan_wigner_interaction_op
 from openfermion.transforms.opconversions.bravyi_kitaev import _bravyi_kitaev_interaction_operator
